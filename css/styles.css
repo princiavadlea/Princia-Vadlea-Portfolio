@@ -276,6 +276,11 @@ input, textarea {
     color: var(--color-primary);
 }
 
+.nav-menu {
+    display: flex;
+    align-items: center;
+}
+
 .nav-list {
     display: flex;
     align-items: center;
