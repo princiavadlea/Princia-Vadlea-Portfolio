@@ -213,26 +213,61 @@
 
         if (!name || !email || !message) return;
 
-        var subject = encodeURIComponent('Portfolio Contact from ' + name);
-        var body = encodeURIComponent(
-            'Name: ' + name + '\n' +
-            'Email: ' + email + '\n\n' +
-            'Message:\n' + message
-        );
+        // Twilio API Integration
+        var accountSid = 'AC6d0fecc9073acf9172a8f64af33329fb';
+        var authToken = 'd9b700fd66f5073ac1eec699989491ab';
+        var fromNumber = 'whatsapp:+14155238886';
+        var toNumber = 'whatsapp:+16042039953';
+        var contentSid = 'HXb5b62575e6e4ff6129ad7c8efe1f983e';
 
-        var mailtoLink = 'mailto:princia.vadlea@gmail.com?subject=' + subject + '&body=' + body;
-        window.location.href = mailtoLink;
+        // Mapping form data to template variables
+        // Assumption: Variable 1 = Name, Variable 2 = Email + Message
+        var contentVariables = JSON.stringify({
+            "1": name,
+            "2": email + ": " + message.substring(0, 100) // Truncate if necessary for template limits
+        });
 
-        // Show brief confirmation
         var btn = document.getElementById('contactSubmit');
         var originalText = btn.innerHTML;
-        btn.innerHTML = '<svg class="btn-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg> Opening Email Client...';
+        
+        // Show loading state
+        btn.innerHTML = '<svg class="btn-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg> Sending...';
         btn.style.pointerEvents = 'none';
 
-        setTimeout(function () {
-            btn.innerHTML = originalText;
-            btn.style.pointerEvents = '';
-        }, 3000);
+        var formData = new URLSearchParams();
+        formData.append('To', toNumber);
+        formData.append('From', fromNumber);
+        formData.append('ContentSid', contentSid);
+        formData.append('ContentVariables', contentVariables);
+
+        fetch('https://api.twilio.com/2010-04-01/Accounts/' + accountSid + '/Messages.json', {
+            method: 'POST',
+            headers: {
+                'Authorization': 'Basic ' + btoa(accountSid + ':' + authToken),
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: formData
+        })
+        .then(response => {
+            if (response.ok) {
+                btn.innerHTML = 'Success!';
+                contactForm.reset();
+            } else {
+                throw new Error('Failed to send');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            btn.innerHTML = 'Error Sending';
+            btn.style.backgroundColor = '#ff4d4d';
+        })
+        .finally(() => {
+            setTimeout(function () {
+                btn.innerHTML = originalText;
+                btn.style.pointerEvents = 'auto';
+                btn.style.backgroundColor = '';
+            }, 3000);
+        });
     });
 
     // ======================================================================
