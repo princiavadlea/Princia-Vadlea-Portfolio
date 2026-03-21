@@ -330,6 +330,48 @@
     });
 
     // ======================================================================
+    // WEB AUTOMATION DEMO MODAL
+    // ======================================================================
+
+    var demoOverlay = document.getElementById('demoModalOverlay');
+    var openDemoBtn = document.getElementById('openDemoModal');
+    var closeDemoBtn = document.getElementById('closeDemoModal');
+
+    function openDemoModal() {
+        demoOverlay.classList.add('active');
+        document.body.classList.add('modal-open');
+    }
+
+    function closeDemoModal() {
+        demoOverlay.classList.remove('active');
+        document.body.classList.remove('modal-open');
+    }
+
+    if (openDemoBtn) {
+        openDemoBtn.addEventListener('click', openDemoModal);
+    }
+
+    if (closeDemoBtn) {
+        closeDemoBtn.addEventListener('click', closeDemoModal);
+    }
+
+    // Close on overlay click (not the modal itself)
+    if (demoOverlay) {
+        demoOverlay.addEventListener('click', function (e) {
+            if (e.target === demoOverlay) {
+                closeDemoModal();
+            }
+        });
+    }
+
+    // Close on Escape key
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && demoOverlay && demoOverlay.classList.contains('active')) {
+            closeDemoModal();
+        }
+    });
+
+    // ======================================================================
     // INITIALIZE
     // ======================================================================
     handleNavbarScroll();
