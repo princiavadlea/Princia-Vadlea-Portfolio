@@ -925,6 +925,85 @@ input, textarea {
     color: var(--color-gray-500);
 }
 
+/* Education Table */
+.edu-table-container {
+    overflow-x: auto;
+    margin-bottom: var(--space-10);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--color-gray-100);
+    box-shadow: var(--shadow-sm);
+}
+
+.edu-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    background: var(--color-white);
+}
+
+.edu-table th {
+    padding: var(--space-4);
+    background-color: var(--color-primary-50);
+    color: var(--color-gray-800);
+    font-size: var(--font-size-sm);
+    font-weight: 700;
+    border-bottom: 2px solid var(--color-primary-100);
+    white-space: nowrap;
+}
+
+.edu-table td {
+    padding: var(--space-4);
+    font-size: var(--font-size-sm);
+    color: var(--color-gray-700);
+    border-bottom: 1px solid var(--color-gray-100);
+}
+
+.edu-table tr:last-child td {
+    border-bottom: none;
+}
+
+.edu-table td strong {
+    color: var(--color-gray-900);
+}
+
+/* Certifications List */
+.cert-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: left;
+}
+
+.cert-list-item {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-3);
+    padding: var(--space-4);
+    background: var(--color-gray-50);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-gray-100);
+}
+
+.cert-list-icon {
+    color: var(--color-primary);
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.cert-list-content {
+    font-size: var(--font-size-sm);
+    color: var(--color-gray-700);
+    line-height: 1.5;
+}
+
+.cert-list-content strong {
+    color: var(--color-gray-900);
+    display: block;
+    margin-bottom: 2px;
+}
+
 /* --------------------------------------------------------------------------
    PROJECTS SECTION
    -------------------------------------------------------------------------- */
